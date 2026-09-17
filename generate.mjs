@@ -161,9 +161,14 @@ zcode 无自定义 agent 定义文件机制。maestro 的 ${agents.length} 个�
 
 ## 模型分级（supervisor-worker 架构）
 
-- **主会话 = GLM-5.3（supervisor）**：需求分析、架构、流程规划、review、验收
-- **Agent 工具子代理 = GLM-5.3-Flash（worker）**：编码执行、文件检索、测试编写等杂活
-  （由 zcode 的 builtInModelOverrides 实现，\`~/.zcode/v2/agents-state.json\`）
+- **主会话 = 强模型（supervisor）**：需求分析、架构、流程规划、review、验收
+- **Explore 子代理 = 轻量模型（worker）**：文件检索、批量阅读等只读杂活
+  （由 zcode 的 builtInModelOverrides 实现，\`~/.zcode/v2/agents-state.json\`，
+  仅覆写 \`Explore\`）
+
+> ⚠️ 实测警告：**不要**把 \`general-purpose\` 也加入 builtInModelOverrides——
+> 该键会连主会话一起切到轻量模型（supervisor 被降级）。如需执行型子代理走轻模型，
+> 先在模型选择器里显式钉住主会话模型并实测验证。
 
 **派发分级规则（按角色分级）**：
 

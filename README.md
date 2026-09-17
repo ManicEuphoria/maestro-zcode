@@ -17,10 +17,10 @@
 | MCP | — | 复用 `maestro-tools`（含代码语义检索），建议裁剪白名单避免与原生工具重复 |
 
 **模型分层（supervisor-worker，可选）**：ZCode 原生支持按 agent 类型覆写模型。在
-`~/.zcode/v2/agents-state.json` 把 `Explore` / `general-purpose` 指向 GLM-5.3-Flash，
-主会话保持 GLM-5.3 —— 判断型角色（planner/reviewer/verifier）留在主模型，执行型角色
-（executor/researcher/mapper）派发给 Flash，大幅降低 token 开销。`/maestro-agents`
-技能内置了 S/W 分级规则。
+`~/.zcode/v2/agents-state.json` 把 `Explore` 指向轻量模型（如 GLM-5.3-Flash），
+主会话保持强模型 —— 判断型角色（planner/reviewer/verifier）留在主会话，只读检索派发给
+轻量子代理。⚠️ 实测：**不要覆写 `general-purpose`**，该键会连主会话一起切到轻量模型；
+除非先在模型选择器显式钉住主会话模型并验证。`/maestro-agents` 技能内置了 S/W 分级规则。
 
 ## 快速开始
 
